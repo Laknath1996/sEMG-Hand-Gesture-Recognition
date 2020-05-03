@@ -2,8 +2,7 @@
 The MIT License (MIT)
 Copyright (c) 2020, Ashwin De Silva and Malsha Perera
 
-Other Contributors : Asma Naim, Kithmin Wickramasinghe, Thilina
-Lalitharatne, Simon Kappel
+
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
