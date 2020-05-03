@@ -1,5 +1,5 @@
 """
-defines utility functions that supports tma_emg_learn.py
+defines utility functions that supports functions.py
 author(s) : Ashwin de Silva and Malsha Perera
 """
 
@@ -8,9 +8,16 @@ import matplotlib as mpl
 
 mpl.use('TkAgg')
 import matplotlib.pyplot as plt
+
+plt.style.use(
+    '/Users/ashwin/Current Work/Real-Time Hand Gesture Recognition with TMA Maps/src/tma/other/PaperDoubleFig.mplstyle')
+
 from matplotlib import cm
 import numpy as np
 import pandas as pd
+import h5py
+import joblib
+import os
 
 
 def plot_latent_space(X_reduced, y_train, labels):
@@ -65,6 +72,31 @@ def write_to_csv(file, data):
     """
     df = pd.DataFrame(data)
     df.to_csv(file, sep='\t')
+
+
+def load_tma_data(data_path):
+    """load tma map data"""
+    dataset_file = h5py.File(data_path)
+    X = np.array(dataset_file['data'])
+    y = np.array(dataset_file['label'])
+    return X, y
+
+
+def combine_data(data_paths):
+    """combine datasets from more than two data paths"""
+    X, y = load_tma_data(data_paths[1])
+    for data_path in data_paths[1:]:
+        X1, y1 = load_tma_data(data_path)
+        X = np.concatenate((X, X1), axis=0)
+        y = np.concatenate((y, y1))
+    return X, y
+
+
+def load_SVM_model(model_path):
+    sc = joblib.load(os.path.join(model_path, 'scaler.joblib'))
+    clf = joblib.load(os.path.join(model_path, 'model.joblib'))
+    return sc, clf
+
 
 # def get_corr_plot(X, title):
 #     """

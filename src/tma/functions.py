@@ -16,7 +16,7 @@ The code is based on the following paper :
 from tma.utils import *
 import matplotlib.pyplot as plt
 
-plt.style.use('/Users/ashwin/Current Work/Real-Time Hand Gesture Recognition with TMA Maps/src/visualization/PaperDoubleFig.mplstyle')
+plt.style.use('/Users/ashwin/Current Work/Real-Time Hand Gesture Recognition with TMA Maps/src/tma/other/PaperDoubleFig.mplstyle')
 import numpy as np
 from scipy.signal import butter, sosfilt
 import os
@@ -246,10 +246,14 @@ class EmgLearn(object):
             temp = np.concatenate((np.squeeze(ut), cov[idx]))  # removed 1
             U[:, t] = temp
         # normalize the first and second order terms separately
-        U1 = U[:self.no_channels + 1, :]
-        U[:self.no_channels + 1, :] = (U1 - U1.min()) / (U1.max() - U1.min())
-        U2 = U[self.no_channels + 1:, :]
-        U[self.no_channels + 1:, :] = (U2 - U2.min()) / (U2.max() - U2.min())
+        # U1 = U[:self.no_channels + 1, :]
+        # U[:self.no_channels + 1, :] = (U1 - U1.min()) / (U1.max() - U1.min())
+        # U2 = U[self.no_channels + 1:, :]
+        # U[self.no_channels + 1:, :] = (U2 - U2.min()) / (U2.max() - U2.min())
+        U1 = U[:8, :]
+        U[:8, :] = (U1 - U1.min()) / (U1.max() - U1.min())
+        U2 = U[8:, :]
+        U[8:, :] = (U2 - U2.min()) / (U2.max() - U2.min())
         return U
 
     def get_tma_maps(self, signal, obs_inc=0.100, plot=False):

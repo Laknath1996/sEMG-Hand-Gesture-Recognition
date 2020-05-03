@@ -4,25 +4,21 @@ author(s) : Ashwin de Silva
 date      : 
 """
 
-from tma.tma_emg_learn import *
-from models.nn_models import cnn
+from tma.functions import *
+from tma.models.nn_models import cnn
 import matplotlib.pyplot as plt
 
 plt.switch_backend('Qt4Agg')
 plt.style.use('dark_background')
-from collections import deque
 from threading import Lock
 import myo
-import joblib
 
-myo.init('/Users/ashwin/FYP/sdk/myo.framework/myo')
+# myo.init('/Users/ashwin/FYP/sdk/myo.framework/myo')
 import numpy as np
 import time
-import socket
 import os
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
-from sklearn.metrics import classification_report
 
 
 class EmgCollector(myo.DeviceListener):
@@ -138,39 +134,39 @@ class Predict(object):
                 time.sleep(0.100)  # k value between two adjacent TMA maps
 
 
-def main():
-    """
-    execute
-    """
-
-    model_path = 'models/subject_1001_Ashwin/model/cnn_model.h5'
-    myo.init('/Users/ashwin/FYP/sdk/myo.framework/myo')  # enter the path of the sdk/myo.famework/myo
-    hub = myo.Hub()
-    el = TemporalMuscleActivationMapsEmgLearn(fs=200,
-                                              no_channels=8,
-                                              obs_dur=0.400)
-    listener = EmgCollector(n=512)
-
-    gesture_dict = {
-        'Middle_Flexion': 0,
-        'Ring_Flexion': 1,
-        'Hand_Closure': 2,
-        'V_Flexion': 3,
-        'Pointer': 4,
-        'Neutral': 5,
-        'No_Gesture': 6
-    }
-
-    live = Predict(listener=listener,
-                   emgLearn=el,
-                   gesture_dict=gesture_dict,
-                   cnn_model_path=model_path)
-
-    with hub.run_in_background(listener.on_event):
-        live.main()
-
-    print("Closing...")
-
-
-if __name__ == '__main__':
-    main()
+# def main():
+#     """
+#     execute
+#     """
+#
+#     model_path = 'models/subject_1001_Ashwin/model/cnn_model.h5'
+#     myo.init('/Users/ashwin/FYP/sdk/myo.framework/myo')  # enter the path of the sdk/myo.famework/myo
+#     hub = myo.Hub()
+#     el = EmgLearn(fs=200,
+#                   no_channels=8,
+#                   obs_dur=0.400)
+#     listener = EmgCollector(n=512)
+#
+#     gesture_dict = {
+#         'Middle_Flexion': 0,
+#         'Ring_Flexion': 1,
+#         'Hand_Closure': 2,
+#         'V_Flexion': 3,
+#         'Pointer': 4,
+#         'Neutral': 5,
+#         'No_Gesture': 6
+#     }
+#
+#     live = Predict(listener=listener,
+#                    emgLearn=el,
+#                    gesture_dict=gesture_dict,
+#                    cnn_model_path=model_path)
+#
+#     with hub.run_in_background(listener.on_event):
+#         live.main()
+#
+#     print("Closing...")
+#
+#
+# if __name__ == '__main__':
+#     main()

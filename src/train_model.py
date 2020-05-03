@@ -36,7 +36,8 @@ reduce_dims(X=X,
             y=y,
             data_path=None,
             algorithm='tsne',
-            perplexity=50)
+            perplexity=50,
+            labels=['M', 'R', 'HC', 'V', 'PO'])
 
 # fit a Support Vector Machine (SVM_) model
 # fit_SVM(data_path, model_path)
