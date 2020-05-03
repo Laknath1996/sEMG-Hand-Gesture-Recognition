@@ -1,8 +1,39 @@
 """
-objective : deep learning model architectures for classifying TMA maps
-author(s) : Ashwin de Silva, Malsha Perera
-date      : 14 Aug 2019
+The MIT License (MIT)
+Copyright (c) 2020, Ashwin De Silva and Malsha Perera
+
+Other Contributors : Asma Naim, Kithmin Wickramasinghe, Thilina
+Lalitharatne, Simon Kappel
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+objective : Contains the deep learning architectures (nn, cnn)
+
+The code is based on the following paper :
+[1] A. D. Silva, M. V. Perera, K. Wickramasinghe, A. M. Naim,
+    T. Dulantha Lalitharatne and S. L. Kappel, "Real-Time Hand Gesture
+    Recognition Using Temporal Muscle Activation Maps of Multi-Channel
+    Semg Signals," ICASSP 2020 - 2020 IEEE International Conference
+    on Acoustics, Speech and Signal Processing (ICASSP), Barcelona,
+    Spain, 2020, pp. 1299-1303.
 """
+
 
 from keras.models import Sequential, load_model
 from keras.layers.convolutional import Conv2D, MaxPooling2D
