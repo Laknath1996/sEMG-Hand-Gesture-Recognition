@@ -1,5 +1,5 @@
 """
-Contains the TemporalMuscleActivationMapsEmgLearn Class that consists of the
+Contains the EmgLearn Class that consists of the
 functions that builds up the TMA map based real-time hand gesture recognition
 algorithm
 author(s) : Ashwin de Silva, Malsha Perera
@@ -13,7 +13,7 @@ The code is based on the following paper :
     Spain, 2020, pp. 1299-1303.
 """
 
-from tma.tma_emg_utils import *
+from tma.utils import *
 import matplotlib.pyplot as plt
 
 plt.style.use('/Users/ashwin/Current Work/Real-Time Hand Gesture Recognition with TMA Maps/src/visualization/PaperDoubleFig.mplstyle')
@@ -46,7 +46,7 @@ class EmgCollector(myo.DeviceListener):
         print(time.time() - self.start)
 
 
-class TemporalMuscleActivationMapsEmgLearn(object):
+class EmgLearn(object):
     """
     contains the functions required to build the TMA based real-time hand gesture
     recognition algorithm
@@ -352,99 +352,99 @@ class TemporalMuscleActivationMapsEmgLearn(object):
 
         return trans
 
-    def offline_recognition(self, signal, gesture_dict, model_path, obs_inc, sensitivity, refractory_period, max_dur,
-                            plot=True, plot_diffs=False):
-        """
-        perform offline hand gesture recognition
-        :param signal: the mulit-channel sEMG signal envelopes of a recording
-        :param gesture_dict: dictionary with gesture types and names
-        :param model_path: model path
-        :param obs_inc: time difference (k) between two adjacent TMA maps
-        :param sensitivity:
-        :param refractory_period: the period (r) in which the onset detection is
-        paused after a new onset is detected as described in [1]
-        :param max_dur: the time point in the recording on which the
-        predictions should stop.
-        :param plot: mark the detected onset points on the sEMG recording
-        :param plot_diffs:
-        :return: plot the difference signal d(n) for the sEMG recording
-        """
-        sc = joblib.load(os.path.join(model_path, 'scaler.joblib'))
-        clf = joblib.load(os.path.join(model_path, 'model.joblib'))
-
-        # from muscle_synergy_2.deep_learning_models import cnn
-        # model = cnn((self.H, self.T, 1), 2)
-        # model.load_weights(model_path)
-
-        i = 0
-        trans = []
-        elapsed_time = refractory_period * self.fs
-        Differences = []
-        t = []
-        predictions = []
-        D = deque(maxlen=5)
-        prev_pred = 4
-
-        while True:
-            obs_start = int(obs_inc * self.fs * i)
-            obs_end = int(obs_inc * self.fs * i + self.obs_dur * self.fs)
-            time = obs_end
-            elapsed_time += int(obs_inc * self.fs)
-            if obs_end > max_dur * self.fs:
-                break
-            obs = signal[:, obs_start:obs_end]
-            O = self.non_linear_transform(obs)
-            if time < 3 * self.fs:
-                prev_O = O
-                i += 1
-                continue
-            diff = np.linalg.norm(prev_O - O, ord='fro')
-            t.append(time)
-            Differences.append(diff)
-            if len(D) == 5:
-                thresh = np.mean(D)
-                if diff > sensitivity and elapsed_time >= refractory_period * self.fs:
-                    trans.append(time)
-                    elapsed_time = 0
-
-                    # logic
-                    if prev_pred == 0:
-                        pred = 2
-                    elif prev_pred == 1:
-                        pred = 3
-                    else:
-                        # # CNN architecture
-                        # U = O.reshape(1, self.H, self.T, 1)
-                        # score = model.predict(U)
-                        # if score >= 0.35:
-                        #     pred = 1
-                        # else:
-                        #     pred = 0
-
-                        # SVM archiecture
-                        fv = sc.transform(O.reshape(1, self.H * self.T))
-                        pred = clf.predict(fv)
-                        pred = pred[0]
-
-                    predictions.append(gesture_dict[pred])
-
-                    prev_pred = pred
-
-            D.append(diff)
-            prev_O = O
-            i += 1
-
-        if plot_diffs:
-            plt.plot(t, Differences, 'y')
-            plt.show()
-
-        if plot:
-            fig = plt.figure()
-            ax = fig.add_subplot(111)
-            for t in trans:
-                ax.axvline(t / self.fs)
-            plt.xticks(np.arange(0, max(trans) / self.fs, 5))
-            plt.show()
-
-        print(trans)
-        print(predictions)
+    # def offline_recognition(self, signal, gesture_dict, model_path, obs_inc, sensitivity, refractory_period, max_dur,
+    #                         plot=True, plot_diffs=False):
+    #     """
+    #     perform offline hand gesture recognition
+    #     :param signal: the mulit-channel sEMG signal envelopes of a recording
+    #     :param gesture_dict: dictionary with gesture types and names
+    #     :param model_path: model path
+    #     :param obs_inc: time difference (k) between two adjacent TMA maps
+    #     :param sensitivity:
+    #     :param refractory_period: the period (r) in which the onset detection is
+    #     paused after a new onset is detected as described in [1]
+    #     :param max_dur: the time point in the recording on which the
+    #     predictions should stop.
+    #     :param plot: mark the detected onset points on the sEMG recording
+    #     :param plot_diffs:
+    #     :return: plot the difference signal d(n) for the sEMG recording
+    #     """
+    #     sc = joblib.load(os.path.join(model_path, 'scaler.joblib'))
+    #     clf = joblib.load(os.path.join(model_path, 'model.joblib'))
+    #
+    #     # from muscle_synergy_2.deep_learning_models import cnn
+    #     # model = cnn((self.H, self.T, 1), 2)
+    #     # model.load_weights(model_path)
+    #
+    #     i = 0
+    #     trans = []
+    #     elapsed_time = refractory_period * self.fs
+    #     Differences = []
+    #     t = []
+    #     predictions = []
+    #     D = deque(maxlen=5)
+    #     prev_pred = 4
+    #
+    #     while True:
+    #         obs_start = int(obs_inc * self.fs * i)
+    #         obs_end = int(obs_inc * self.fs * i + self.obs_dur * self.fs)
+    #         time = obs_end
+    #         elapsed_time += int(obs_inc * self.fs)
+    #         if obs_end > max_dur * self.fs:
+    #             break
+    #         obs = signal[:, obs_start:obs_end]
+    #         O = self.non_linear_transform(obs)
+    #         if time < 3 * self.fs:
+    #             prev_O = O
+    #             i += 1
+    #             continue
+    #         diff = np.linalg.norm(prev_O - O, ord='fro')
+    #         t.append(time)
+    #         Differences.append(diff)
+    #         if len(D) == 5:
+    #             thresh = np.mean(D)
+    #             if diff > sensitivity and elapsed_time >= refractory_period * self.fs:
+    #                 trans.append(time)
+    #                 elapsed_time = 0
+    #
+    #                 # logic
+    #                 if prev_pred == 0:
+    #                     pred = 2
+    #                 elif prev_pred == 1:
+    #                     pred = 3
+    #                 else:
+    #                     # # CNN architecture
+    #                     # U = O.reshape(1, self.H, self.T, 1)
+    #                     # score = model.predict(U)
+    #                     # if score >= 0.35:
+    #                     #     pred = 1
+    #                     # else:
+    #                     #     pred = 0
+    #
+    #                     # SVM archiecture
+    #                     fv = sc.transform(O.reshape(1, self.H * self.T))
+    #                     pred = clf.predict(fv)
+    #                     pred = pred[0]
+    #
+    #                 predictions.append(gesture_dict[pred])
+    #
+    #                 prev_pred = pred
+    #
+    #         D.append(diff)
+    #         prev_O = O
+    #         i += 1
+    #
+    #     if plot_diffs:
+    #         plt.plot(t, Differences, 'y')
+    #         plt.show()
+    #
+    #     if plot:
+    #         fig = plt.figure()
+    #         ax = fig.add_subplot(111)
+    #         for t in trans:
+    #             ax.axvline(t / self.fs)
+    #         plt.xticks(np.arange(0, max(trans) / self.fs, 5))
+    #         plt.show()
+    #
+    #     print(trans)
+    #     print(predictions)

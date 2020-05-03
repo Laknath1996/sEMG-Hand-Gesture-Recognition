@@ -10,7 +10,7 @@ plt.style.use('dark_background')
 import myo
 
 myo.init('/Users/ashwin/FYP/sdk/myo.framework/myo')
-from tma.tma_emg_learn import *
+from tma.functions import *
 
 
 class EmgCollector(myo.DeviceListener):
@@ -92,7 +92,7 @@ def main():
     """
     myo.init('/Users/ashwin/FYP/sdk/myo.framework/myo')  # enter the path of the sdk/myo.famework/myo
     hub = myo.Hub()
-    el = TemporalMuscleActivationMapsEmgLearn(fs=200, no_channels=8, obs_dur=0.2)
+    el = EmgLearn(fs=200, no_channels=8, obs_dur=0.2)
     listener = EmgCollector(n=512)
     with hub.run_in_background(listener.on_event):
         Plot(listener, el).main()

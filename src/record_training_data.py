@@ -14,19 +14,19 @@ The code is based on the following paper :
 
 """
 
-from tma.tma_emg_learn import *
+from tma.functions import *
 import h5py
 
 # define the TemporalMuscleActivationMap
-experiment = TemporalMuscleActivationMapsEmgLearn(fs=200,
-                                                  no_channels=8,
-                                                  obs_dur=0.400)
+experiment = EmgLearn(fs=200,
+                      no_channels=8,
+                      obs_dur=0.400)
 
 ####################################################
 # Define useful parameters here.
 ####################################################
 
-data_save_path = 'data/subject_1001_Ashwin'
+data_save_path = 'data/subject_1001_Ashwin' # where the data should be saved
 flexion_gestures = ['M_1', 'R_1', 'HC_1', 'V_1', 'PO_1']  # gesture types
 thresh = [3, 2, 2, 2, 2]  # onset detection threholds for each gesture type. This can be set manually or by using methods explained in [1].
 delta = 0.3  # the half width of the neighborhood selected around each gesture onset points
@@ -90,7 +90,8 @@ print("Labels : ", np.unique(y))
 # # Save the dataset
 # ####################################################
 
-dataset_file = h5py.File(data_save_path + '/trans_map_dataset_2.h5')
+# saves the TMA map dataset in a .h5 file
+dataset_file = h5py.File(data_save_path + '/trans_map_dataset_1.h5')
 dataset_file.create_dataset('data', data=X)
 dataset_file.create_dataset('label', data=y)
 dataset_file.close()

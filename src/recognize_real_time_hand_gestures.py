@@ -4,14 +4,14 @@ author(s) : Ashwin de Silva, Malsha Perera
 date      : 
 """
 
-from models.real_time_prediction import *
+from tma.models.real_time_prediction import *
 
 model_path = 'models/subject_1001_Ashwin/model/cnn_model.h5'
 myo.init('/Users/ashwin/FYP/sdk/myo.framework/myo')  # enter the path of the sdk/myo.famework/myo
 hub = myo.Hub()
-el = TemporalMuscleActivationMapsEmgLearn(fs=200,
-                                          no_channels=8,
-                                          obs_dur=0.400)
+el = EmgLearn(fs=200,
+              no_channels=8,
+              obs_dur=0.400)
 listener = EmgCollector(n=512)
 
 gesture_dict = {
