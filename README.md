@@ -1,6 +1,6 @@
 # Real-Time Hand Gesture Recognition with Temporal Muscle Activation Maps
 
-The source code for the real-time hand gesture recognition algorithm based on Temporal Muscle Activation maps of multi-channel surface electromyography (sEMG) signals.
+This repository containes the source code for the real-time hand gesture recognition algorithm based on Temporal Muscle Activation (TMA) maps of multi-channel surface electromyography (sEMG) signals. An application of this algorithm -- wearable wireless dry contact sEMG sensor system for controlling digital technologies -- received an honorable mention (ranked among top 15 projects in the world) at the IEEE Communication Society Student Competition 2019.
 
 ## Getting Started
 
