@@ -1,8 +1,16 @@
 # Real-Time Hand Gesture Recognition with Temporal Muscle Activation Maps
 
-
+<p align="center">
+  <img src="https://github.com/Laknath1996/Real-Time-Hand-Gesture-Recognition-with-TMA-Maps/blob/master/figures/Amap_Final.png" width="512" height="362">
+</p>
 
 This repository containes the source code for the real-time hand gesture recognition algorithm based on Temporal Muscle Activation (TMA) maps of multi-channel surface electromyography (sEMG) signals, which was published in the ICASSP 2020 paper [Real-Time Hand Gesture Recognition Using Temporal Muscle Activation Maps of Multi-Channel Semg Signals](10.1109/ICASSP40776.2020.9054227). An application of this work -- wearable wireless dry contact sEMG sensor system for controlling digital technologies -- received an honorable mention (ranked among top 15 projects in the world) at the IEEE Communication Society Student Competition 2019.
+
+Currently, the following video demonstrations of the work are available. Please note that as of 2020/04/03, the demonstration and evaluations were performed using only the **MyoArmband** device by Thalamic Labs, Canada. We would update demonstrations as we extend the software to other sEMG acquisition devices.
+
+| Device | Real-Time Difference Signal d(n) | Real-Time Hand Gesture Recognition |
+|---|:---:|:---:|
+| MyoArm Band |[<img src="https://i.imgur.com/TClPwXT.png" width="100%">](https://drive.google.com/file/d/15mN4JwVRRL3TTHlOhGMS2ip6zGMr1LJJ/view?usp=sharing "Video Title") | [<img src="https://i.imgur.com/gxEQ8Sp.png" width="100%">](https://drive.google.com/file/d/1Yd8oEFTagi1tzy1vNjLxUetrtBJKHM6B/view?usp=sharing "Video Title")|
 
 If you use this code/paper for your research, please cite the following paper:
 
@@ -16,87 +24,61 @@ number={},
 pages={1299-1303},}
 ```
 
+## Installation Guide
 
-## Getting Started
+### Step 1 : Clone the Repository
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Clone the repository using the following command.
 
-### Prerequisites
+````
+$ git clone https://github.com/Laknath1996/Real-Time-Hand-Gesture-Recognition-with-TMA-Maps.git
+````
 
-What things you need to install the software and how to install them
+### Step 2 : Install Dependencies
 
-```
-Give examples
-```
+**Note** : It is recommended to use a conda environment with Python 3.6 with this code. Before running the commands in this guide, make sure you activate the environment using `$ source activate <name of the env>`
 
-### Installing
+The use the `requirements.txt` file given in the repository to install the dependencies via `pip`.
 
-A step by step series of examples that tell you how to get a development env running
+````
+$ cd Real-Time\ Hand\ Gesture\ Recognition\ with\ TMA\ Maps/
+$ pip install -r requirements.txt 
+````
+Note that `myo-python` provides classes, methods, etc. to access the MyoArm band device. Also, download the [myo-sdk](https://support.getmyo.com/hc/en-us/articles/360018409792-Myo-Connect-SDK-and-firmware-downloads) according to your relevant OS and keep it inside the the project root folder. 
 
-Say what the step will be
+### Step 3 : Verify the installation of dependencies
 
-```
-Give the example
-```
+To verify whether `tensorflow`, `keras` and `myo-python` were installed properly, run the following.
+````
+$ python
+>>> import tensorflow
+>>> import keras
+>>> import myo
+````
+If there are no error messages upon importing the above dependencies, it would indicate that the they are correctly installed. 
 
-And repeat
+Now you can start using the code to recognize hand gestures in real-time using the TMA maps of the mulit-channel sEMG signal from the MyoArm band.
 
-```
-until finished
-```
+## Execution
 
-End with an example of getting some data out of the system or using it for a little demo
+`notebooks/gesture_recog_tma.ipynb` describes the execution steps of the real-time hand gesture recognition pipeline in detail.
 
-## Running the tests
+## Notes
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+As of 2020/04/03, the above installation and execution steps are only tested on MacOS 10.14.6. We will update as soon as we test the installation and execution steps on Linux and Windows.
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Ashwin De Silva**
+* **Malsha Perera** 
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+In addition, Asma Naim and Kithmin Wickremasinghe participated this project. Dr. Thilina Lalitharatne and Dr. Simon Kappel supervised the work.  
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* Bionics Laboratory, Dept. of Mechanical Eng., University of Moratuwa, Sri Lanka.
+* Dept. of Electronic and Telecommunication Eng., University of Moratuwa, Sri Lanka.
