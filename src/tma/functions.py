@@ -315,7 +315,7 @@ class EmgLearn(object):
             i += 1
         return action_evolution_maps[1:, ...]
 
-    def detect_onsets(self, signal, obs_inc, threshold, refractory_period, max_dur, plot=True, plot_diffs=False):
+    def detect_onsets(self, signal, obs_inc, threshold, refractory_period, max_dur, plot=True):
         """
         Detects (offline) the gesture onsets with the use of the time series of
         TMA maps.
@@ -368,7 +368,7 @@ class EmgLearn(object):
             for t in trans:
                 plt.axvline(t / self.fs, ls='--')
             plt.axhline(3, ls='-', c='r')
-            plt.xticks(np.arange(0, max(trans) / self.fs, 5))
+            plt.xticks(np.arange(0, max(trans) / self.fs, 10))
             plt.xlabel("time(s)")
             plt.ylabel("$d(n)$")
             plt.legend(['difference signal', 'onset'])

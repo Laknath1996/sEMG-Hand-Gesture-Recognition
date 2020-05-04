@@ -49,7 +49,7 @@ experiment = EmgLearn(fs=200,
 # Define useful parameters here.
 ####################################################
 
-data_save_path = '/Users/ashwin/Current Work/Real-Time Hand Gesture Recognition with TMA Maps/data/subject_1001' # where the data should be saved
+data_save_path = 'data/subject_1001' # where the data should be saved
 flexion_gestures = ['M_1', 'R_1', 'HC_1', 'V_1', 'PO_1']  # gesture types
 thresh = [3, 2, 2, 2, 2]  # onset detection threholds for each gesture type. This can be set manually or by using methods explained in [1].
 delta = 0.3  # the half width of the neighborhood selected around each gesture onset points
@@ -92,8 +92,7 @@ for i, gesture in enumerate(list(filtered_gesture_database.keys()), start=0):
                                      threshold=thresh[i],
                                      refractory_period=8,
                                      max_dur=97,
-                                     plot=True,
-                                     plot_diffs=True)
+                                     plot=True)
     for t in trans:
         # stores the TMA maps from a neighborhood defined around each gesture onset points. These maps
         # together with their labels are used as the training data for the classification algorithm

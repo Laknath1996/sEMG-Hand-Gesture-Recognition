@@ -94,10 +94,10 @@ def fit_NN(experiment, epochs, X=None, y=None, data_path=None, model_path=None, 
     # train the model
     if model == 'fc':
         model = nn((experiment.H * experiment.T,), num_classes)
-        model_checkpoint = ModelCheckpoint(model_path + '/fc_model.h5', monitor='loss', verbose=1, save_best_only=True)
+        model_checkpoint = ModelCheckpoint(model_path, monitor='loss', verbose=1, save_best_only=True)
     elif model == 'cnn':
         model = cnn((X.shape[1], X.shape[2], 1), num_classes)
-        model_checkpoint = ModelCheckpoint(model_path + '/cnn_model.h5', monitor='loss', verbose=1, save_best_only=True)
+        model_checkpoint = ModelCheckpoint(model_path, monitor='loss', verbose=1, save_best_only=True)
 
     model.fit(X, y_cat,
               epochs=epochs,

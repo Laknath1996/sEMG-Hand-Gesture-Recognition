@@ -33,17 +33,12 @@ The code is based on the following paper :
     Spain, 2020, pp. 1299-1303.
 """
 
-
-from tma.functions import *
 from tma.models.nn_models import cnn
-import matplotlib.pyplot as plt
 
-plt.switch_backend('Qt4Agg')
-plt.style.use('dark_background')
 from threading import Lock
 import myo
 
-# myo.init('/Users/ashwin/FYP/sdk/myo.framework/myo')
+# myo.init('/Users/ashwin/Current Work/Real-Time Hand Gesture Recognition with TMA Maps/sdk/myo.framework/myo')
 import numpy as np
 import time
 import os
@@ -51,7 +46,7 @@ import os
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
 
-class EmgCollector(myo.DeviceListener):
+class EmgCollectorPrediction(myo.DeviceListener):
     """
     Collects EMG data in a queue with *n* maximum number of elements.
     """
@@ -80,7 +75,7 @@ class Predict(object):
     onset detection and plotting
     """
 
-    def __init__(self, listener, emgLearn, gesture_dict, cnn_model_path):
+    def __init__(self, listener, emgLearn, gesture_dict, cnn_model_path, thresh):
         # connection with the device
         self.n = listener.n
         self.listener = listener
@@ -88,6 +83,7 @@ class Predict(object):
 
         # prediction properties
         self.prediction = 'No Gesture'
+        self.thresh = thresh
 
         # set the model path here
         # cnn_model_path = 'models/subject_1001_Ashwin/model/CNN_2/cnn_model.h5'
@@ -123,13 +119,13 @@ class Predict(object):
 
                 emg_data = self.emgLearn.filter_signals(emg_data)
 
-                obs = emg_data[:, -80:] # M = 80 (obs_dur = 0.4)
+                obs = emg_data[:, -self.emgLearn.obs_dur*self.emgLearn.fs:]  # M = 80 (obs_dur = 0.4)
 
                 O = self.emgLearn.non_linear_transform(obs)
 
                 diff = np.linalg.norm(prev_O - O, ord=2)
 
-                if diff > 7 and time.time() - start_time >= 3:
+                if diff > self.thresh and time.time() - start_time >= 3:
                     start_time = time.time()
 
                     # logic
@@ -162,7 +158,6 @@ class Predict(object):
 
                 prev_O = O
                 time.sleep(0.100)  # k value between two adjacent TMA maps
-
 
 # def main():
 #     """

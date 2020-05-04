@@ -32,110 +32,19 @@ The code is based on the following paper :
     Spain, 2020, pp. 1299-1303.
 """
 
-
-from tma.functions import *
-import matplotlib.pyplot as plt
-
-plt.switch_backend('Qt4Agg')
-plt.style.use('dark_background')
-from collections import deque
-from threading import Lock
+from tma.visualization.real_time_visualization import EmgCollectorEmgSignals, PlotEmgSignals
 import myo
+from tma.functions import EmgLearn
 
-myo.init('/Users/ashwin/FYP/sdk/myo.framework/myo')
-import numpy as np
-import time
-import os
+myo.init('/Users/ashwin/Current Work/Real-Time Hand Gesture Recognition with TMA Maps/sdk/myo.framework/myo')
+hub = myo.Hub()
+el = EmgLearn(fs=200,
+              no_channels=8,
+              obs_dur=0.400)
 
-os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+listener = EmgCollectorEmgSignals(n=512)
 
-
-class EmgCollector(myo.DeviceListener):
-    """
-    Collects EMG data in a queue with *n* maximum number of elements.
-    """
-
-    def __init__(self, n):
-        self.n = n
-        self.lock = Lock()
-        self.emg_data_queue = []  # deque(maxlen=n)
-        self.emg_stream = deque(maxlen=n)
-
-    def get_emg_data(self):
-        with self.lock:
-            return list(self.emg_data_queue)
-
-    def get_emg_queue(self):
-        with self.lock:
-            return list(self.emg_stream)
-
-    def on_connected(self, event):
-        event.device.stream_emg(True)
-
-    def on_emg(self, event):
-        with self.lock:
-            self.emg_data_queue.append((event.timestamp, event.emg))
-            self.emg_stream.append((event.timestamp, event.emg))
+with hub.run_in_background(listener.on_event):
+    PlotEmgSignals(listener, el, gesture_dict=None, conn=None).main()
 
 
-class Plot(object):
-    """
-    onset detection and plotting
-    """
-
-    def __init__(self, listener, emgLearn, gesture_dict, conn):
-        # connection with the device
-        self.n = listener.n
-        self.listener = listener
-        self.emgLearn = emgLearn
-
-        # figure properties
-        self.fig = plt.figure(tight_layout=True)
-        X = [(8, 2, 1), (8, 2, 3), (8, 2, 5), (8, 2, 7), (8, 2, 9), (8, 2, 11), (8, 2, 13), (8, 2, 15),
-             (4, 2, (2, 4)), (4, 2, (6, 8))]  # subplots
-        self.axes = [self.fig.add_subplot(r, c, pn) for r, c, pn in X]
-        [(ax.set_ylim([-100, 100])) for ax in self.axes[:-2]]
-        self.graphs = [ax.plot(np.arange(self.n), np.zeros(self.n))[0] for ax in self.axes[:-2]]
-
-        self.start = time.time()
-
-    def update_plot(self):
-        # get data
-        emg_data = self.listener.get_emg_queue()
-        emg_data = np.array([x[1] for x in emg_data]).T
-
-        # extract the signal envelope
-        # emg_data = self.emgLearn.filter_signals(emg_data)
-
-        # plot the data
-        for g, data in zip(self.graphs, emg_data):
-            if len(data) < self.n:
-                data = np.concatenate([np.zeros(self.n - len(data)), data])
-            g.set_ydata(data)
-
-        plt.draw()
-
-    def main(self):
-        while True:
-            self.update_plot()
-            plt.pause(0.001)
-
-
-def main():
-    """
-    execute
-    """
-
-    myo.init('/Users/ashwin/FYP/sdk/myo.framework/myo')  # enter the path of the sdk/myo.famework/myo
-    hub = myo.Hub()
-    el = EmgLearn(fs=200,
-                  no_channels=8,
-                  obs_dur=0.400)
-    listener = EmgCollector(n=512)
-
-    with hub.run_in_background(listener.on_event):
-        Plot(listener, el, gesture_dict=None, conn=None).main()
-
-
-if __name__ == '__main__':
-    main()

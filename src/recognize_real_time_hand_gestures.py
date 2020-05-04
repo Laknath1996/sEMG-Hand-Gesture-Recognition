@@ -33,7 +33,9 @@ The code is based on the following paper :
     Spain, 2020, pp. 1299-1303.
 """
 
-from tma.models.real_time_prediction import *
+from tma.models.real_time_prediction import EmgCollectorPrediction, Predict
+import myo
+from tma.functions import EmgLearn
 
 model_path = 'models/subject_1001_Ashwin/model/cnn_model.h5'
 myo.init('path/to/myo/sdk')  # enter the path of the sdk/myo.famework/myo
@@ -41,7 +43,7 @@ hub = myo.Hub()
 el = EmgLearn(fs=200,
               no_channels=8,
               obs_dur=0.400)
-listener = EmgCollector(n=512)
+listener = EmgCollectorPrediction(n=512)
 
 gesture_dict = {
         0 : 'Middle_Flexion',
@@ -53,7 +55,8 @@ gesture_dict = {
         6 : 'No_Gesture'
     }
 
-live = Predict(listener=listener,
+live = Predict(thresh=7,
+               listener=listener,
                emgLearn=el,
                gesture_dict=gesture_dict,
                cnn_model_path=model_path)
