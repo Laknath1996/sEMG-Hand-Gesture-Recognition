@@ -11,6 +11,9 @@ Currently, the following video demonstrations of the work are available. Please 
 | Device | Real-Time Difference Signal d(n) | Real-Time Hand Gesture Recognition |
 |---|:---:|:---:|
 | MyoArm Band |[<img src="https://i.imgur.com/TClPwXT.png" width="100%">](https://drive.google.com/file/d/15mN4JwVRRL3TTHlOhGMS2ip6zGMr1LJJ/view?usp=sharing "Video Title") | [<img src="https://i.imgur.com/gxEQ8Sp.png" width="100%">](https://drive.google.com/file/d/1Yd8oEFTagi1tzy1vNjLxUetrtBJKHM6B/view?usp=sharing "Video Title")|
+| sEMG Dry Contact Electrodes proposed by Naim et al. [1]| [<img src="https://i.imgur.com/htv288P.png" width="100%">](https://drive.google.com/open?id=1kvWtg2dxUsKVR4OwtHWpW691aTnte2RE "Video Title") | [<img src="https://i.imgur.com/htv288P.png" width="100%">](https://drive.google.com/open?id=1kvWtg2dxUsKVR4OwtHWpW691aTnte2RE "Video Title") |
+
+Please note that robotic hand demonstrated in the above videos are build up using the code from [this](https://github.com/OpenBionics/Prosthetic-Hands/tree/master/Kinematics/MATLAB) repository. 
 
 If you use this code/paper for your research, please cite the following paper:
 
@@ -82,3 +85,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 * Bionics Laboratory, Dept. of Mechanical Eng., University of Moratuwa, Sri Lanka.
 * Dept. of Electronic and Telecommunication Eng., University of Moratuwa, Sri Lanka.
+
+## References
+
+[1] A. M. Naim, K. Wickramasinghe, A. De Silva, M. V. Perera, T. Dulantha Lalitharatne, and S. L. Kappel, ”Low-Cost Active Dry-Contact Surface EMG Sensor for Bionic Arms,” submitted to 2020 IEEE International Conference on Systems, Man and Cybernetics (SMC)
