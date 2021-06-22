@@ -4,6 +4,8 @@
   <img src="https://github.com/Laknath1996/Real-Time-Hand-Gesture-Recognition-with-TMA-Maps/blob/master/figures/Amap_Final.png" width="512" height="362">
 </p>
 
+[![Conference](https://img.shields.io/badge/Conference-ICASSP%202020-brightgreen)](https://2020.ieeeicassp.org/) [![Paper](https://img.shields.io/badge/Paper-IEEEXplore-blue)](https://ieeexplore.ieee.org/document/9054227)
+
 This repository containes the source code for the real-time hand gesture recognition algorithm based on Temporal Muscle Activation (TMA) maps of multi-channel surface electromyography (sEMG) signals, which was published in the ICASSP 2020 paper [Real-Time Hand Gesture Recognition Using Temporal Muscle Activation Maps of Multi-Channel Semg Signals](10.1109/ICASSP40776.2020.9054227). An application of this work -- wearable wireless dry contact sEMG sensor system for controlling digital technologies -- received an honorable mention (ranked among top 15 projects in the world) at the IEEE Communication Society Student Competition 2019.
 
 Currently, the following video demonstrations of the work are available. Please note that as of 2020/04/03, the demonstration and evaluations were performed using only the **MyoArmband** device by Thalamic Labs, Canada. We would update demonstrations as we extend the software to other sEMG acquisition devices.
