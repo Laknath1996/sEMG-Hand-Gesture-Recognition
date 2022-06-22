@@ -3,7 +3,7 @@ joblib==0.13.2
 Keras==2.2.0
 matplotlib==3.1.0
 myo-python==1.0.3
-numpy==1.16.2
+numpy==1.22.0
 pandas==0.24.2
 scikit-learn==0.20.3
 scipy==1.2.1
